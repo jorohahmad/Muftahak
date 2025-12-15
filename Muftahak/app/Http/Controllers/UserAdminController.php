@@ -12,18 +12,20 @@ class UserAdminController extends Controller
     {
         $validated = $request->validate([
             'firstName' => 'required|string',
-            'phoneNumber' => 'required|unique:users,phoneNumber',
+            'phoneNumber' => 'required|unique:user_admins,phoneNumber',
             'password' => 'required|string|min:8|confirmed',
             'personalImage' => 'required|image|max:2048|mimes:png,jpeg,jpg,gif',
             'personalIdImage' => 'required|image|max:2048|mimes:png,jpeg,jpg,gif',
             'role' => 'required|string|in:rented,tenant'
         ]);
         if ($request->hasFile('personalImage')) {
-            $path = $request->file('personalImage')->store('personalImage', 'public');
+            $path = $request->file('personalImage')->store('M', 'public');
+            $path=str_replace('M/','',$path);
             $validated['personalImage'] = $path;
         }
         if ($request->hasFile('personalIdImage')) {
-            $path = $request->file('personalIdImage')->store('personalIdImage', 'public');
+            $path = $request->file('personalIdImage')->store('N', 'public');
+            $path=str_replace('N/','',$path);
             $validated['personalIdImage'] = $path;
         }
         $validated['password'] = Hash::make($request->password);
@@ -35,8 +37,5 @@ class UserAdminController extends Controller
         ], 200);
     }
     //for admin
-    function showUsersAdmin()
-    {
-        return UserAdmin::all();
-    }
+   
 }
