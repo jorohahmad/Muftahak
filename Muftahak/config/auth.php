@@ -40,6 +40,14 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'api' => [
+            'driver' => 'sanctum',
+            'provider' => 'users',
+        ],
+        'renteds-api'=>[
+            'driver'=>'sanctum',
+            'provider'=>'renteds'
+        ],
     ],
 
     /*
@@ -63,6 +71,10 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
+        ],
+        'renteds'=>[
+            'driver'=> 'eloquent',
+            'model' => env('AUTH_MODEL', App\Models\Rented::class),
         ],
 
         // 'users' => [
