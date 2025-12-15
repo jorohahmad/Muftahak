@@ -1,0 +1,280 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Quicksand:wght@300..700&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Quicksand:wght@300..700&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Science+Gothic:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bitcount+Prop+Single:wght@100..900&family=Quicksand&family=Roboto:ital,wght@0,100..900;1,100..900&family=Science+Gothic:wght@100..900&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Quicksand', sans-serif;
+}
+
+nav {
+    width: 300px;
+    height: 20vh;
+    border-bottom-right-radius: 50px;
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.3);
+    /* border:2px solid black; */
+    box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.3), inset 0px 0px 6px 2px rgba(0, 0, 0, 0.3);
+}
+
+nav img {
+    position: relative;
+    width: auto;
+    height: 100px;
+    left: 50px;
+    top: 10px
+}
+
+.container {
+    height: 100vh;
+
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    /* z-index: -2; */
+}
+
+/* .container::before{
+   content: ''; 
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 50%;
+   z-index: -1;
+   background-color: rgba(0, 0, 0, 0.3);
+} */
+.blur {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: url('../image/vecteezy_attractive-and-modern-house_24685666.jpg') no-repeat;
+    background-size: cover;
+    filter: blur(6px);
+    z-index: -1;
+}
+
+.blur::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-color: rgba(255, 255, 255, 0.01);
+    /* z-index: -1; */
+}
+
+.login {
+    background-color: rgba(255, 255, 255, 0.6);
+    padding: 20px 40px;
+    border-radius: 7px;
+    width: 365px;
+    height: 65vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    font-family: 'Quicksand', sans-serif;
+    box-shadow: inset 0px 0px 10px 2px rgba(0, 0, 0, 0.6), 0px 0px 18px 6px rgba(0, 0, 0, 0)
+}
+
+.container h1 {
+    margin-bottom: 5px;
+    color: rgb(4, 4, 20);
+    text-align: center;
+    padding-bottom: 30px;
+    margin-top: -30px;
+    /* border-bottom-right-radius:4px ;
+    border-bottom-left-radius:4px ;
+    border-bottom: #705825 solid 4px; */
+    /* font-size: 18px; */
+    font-weight: 500;
+}
+
+.container h1 span {
+
+    color: #705825
+}
+
+h6 span {
+    color: #584826;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.icon1 {
+    position: absolute;
+    top: 10px;
+    font-size: 20px;
+    right: 0px;
+    color: #544930;
+}
+
+.container .input {
+    position: relative;
+}
+
+.container input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: transparent;
+    border-radius: 3px;
+    border: 0;
+    border-bottom: rgb(13, 13, 37) solid 3px;
+    outline: 0;
+    transition: 0.3s;
+
+}
+
+/* .container input:focus::placeholder{
+   
+    transform: translateY(-15px);
+} */
+.container input::placeholder {
+    color: rgb(13, 13, 37);
+    /* font-family: 'Bitcount Prop Single', sans-serif; */
+    font-weight: 500;
+    /* font-size: medium; */
+    /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); */
+}
+
+.container input:focus {
+    border-bottom-color: #705825;
+    transform: scale(1.06);
+}
+
+.input label {
+    position: relative;
+    top: -30px
+}
+
+.input label span {
+    display: inline-block;
+    min-width: 5px;
+    font-size: 15px;
+    transition: 0.3s ease;
+}
+
+.container input:focus+label span {
+    transform: translateY(-15px);
+
+}
+
+.container button {
+    position: relative;
+    letter-spacing: 1px;
+    padding: 8px 0;
+    display: inline-block;
+    width: 40%;
+    font-weight: 700;
+    font-family: 'Quicksand', sans-serif;
+    left: 150px;
+    border: 0;
+    border-radius: 8px;
+    background-color: rgb(57 57 107);
+
+    color: #fff;
+    transition: 0.3s;
+}
+
+.container button:hover {
+    transform: scale(1.06);
+    background-color: #705825;
+    color: rgb(4, 4, 20);
+
+}
+
+@media(width<=1200px) {
+
+    /* nav {
+        width: 200px;
+        height: 15vh;
+        border-bottom-right-radius: 30px;
+    }
+
+    nav img {
+        height: 70px;
+        left: 20px
+    }
+
+    .login {
+        width: 300px;
+        height: 70vh;
+        padding: 15px 20px;
+    }
+
+    .container h1 {
+        font-size: 20px;
+    }
+
+    .container button {
+        width: 60%;
+        left: 90px;
+    } */
+    nav {
+        display: none;
+    }
+}
+
+@media(width<=500px) {
+
+    .blur {
+        filter: blur(4px)
+    }
+
+    .container button {
+        background-color: rgb(57 57 107);
+
+    }
+
+    h6 {
+        color: #fff
+    }
+
+    h6 span {
+        color: #ffdd94;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .container input {
+        color: #ffffff;
+        border-bottom: rgb(172 172 184) solid 3px;
+        ;
+    }
+
+    .icon1 {
+        color: #ffe1a2;
+
+    }
+
+    .container h1 {
+        color: #fff;
+    }
+
+    .login {
+        background: transparent;
+        box-shadow: inset 0px 0px 10px 2px rgba(0, 0, 0, 0), 0px 0px 18px 6px rgba(0, 0, 0, 0)
+    }
+
+    .container input::placeholder {
+        color: #ffffff
+    }
+}
