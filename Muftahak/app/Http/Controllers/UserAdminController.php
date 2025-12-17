@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserAdminController extends Controller
 {
-    function register(Request $request)
+   function register(Request $request)
     {
         $validated = $request->validate([
             'firstName' => 'required|string',

@@ -22,27 +22,38 @@
             <div class="div-cc">
                 <div class="users">
                     @foreach ($collection as $item)
-                        <div class="user">
-                            <div class="nav">
+                        @if ($item->boolean === 'zero')
+                            <div class="user">
+                                <div class="nav">
 
-                                <img src="{{ asset('storage/M/' . $item->personalImage) }}" alt="">
-                                <h4> {{ $item->role }}</h4>
+                                    <img src="{{ asset('storage/M/' . $item->personalImage) }}" alt="">
+                                    <h4> {{ $item->role }}</h4>
 
-                            </div>
-                            <div class="info">
-                                <h2> {{ $item->firstName }} {{ $item->lastName }}</h2>
-                                <p><span> Phone Number: </span>{{ $item->phoneNumber }}</p>
-                                <p><span>Birthday :</span>{{ $item->birthday }}</p>
-                                <a
-                                    href="{{ route('images', ['img1' => $item->personalImage, 'img2' => $item->personalIdImage]) }}">personal
-                                    & personal ID image</a>
+                                </div>
+                                <div class="info">
+                                    <h2> {{ $item->firstName }} {{ $item->lastName }}</h2>
+                                    <p><span> Phone Number: </span>{{ $item->phoneNumber }}</p>
+                                    <p><span>Birthday :</span>{{ $item->birthday }}</p>
+                                    <a
+                                        href="{{ route('images', ['img1' => $item->personalImage, 'img2' => $item->personalIdImage]) }}">personal
+                                        & personal ID image</a>
 
+                                </div>
+                                <div class="buttons">
+                                    <form action="{{ route('deleteRequest', $item->id) }}" method="POST"
+                                        onsubmit="return confirm('Do You Sure To Delete')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="delete"> DISAPPROVAL
+                                    </form>
+                                    <form action="{{ route('registerA', $item->id) }}" method="POST"
+                                        onsubmit="return confirm('Do You Sure To Approve')">
+                                        @csrf
+                                        <button> APPROVAL </button>
+                                    </form>
+                                </div>
                             </div>
-                            <div class="buttons">
-                                <button> DISAPPROVAL</button>
-                                <button> APPROVAL </button>
-                            </div>
-                        </div>
+                        @endif
                     @endforeach
 
                 </div>
@@ -71,7 +82,7 @@
 
     </div>
 
-    <script>
+    {{-- <script>
         const buttons = document.querySelectorAll('.buttons button');
         buttons.forEach(button => {
             button.addEventListener('click', () => {
@@ -84,7 +95,7 @@
                 }
             });
         });
-    </script>
+    </script> --}}
 </body>
 
 </html>
