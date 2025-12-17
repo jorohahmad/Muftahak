@@ -23,12 +23,12 @@ class UserAdminController extends Controller
         ]);
         if ($request->hasFile('personalImage')) {
             $path = $request->file('personalImage')->store('M', 'public');
-            $path=str_replace('M/','',$path);
+            $path = str_replace('M/', '', $path);
             $validated['personalImage'] = $path;
         }
         if ($request->hasFile('personalIdImage')) {
             $path = $request->file('personalIdImage')->store('N', 'public');
-            $path=str_replace('N/','',$path);
+            $path = str_replace('N/', '', $path);
             $validated['personalIdImage'] = $path;
         }
         $validated['password'] = Hash::make($request->password);
@@ -86,26 +86,26 @@ class UserAdminController extends Controller
             ], 200);
         }
         return response()->json([
-            'message'=>'not found'
-        ],404);
+            'message' => 'not found'
+        ], 404);
     }
 
     //logout
     function logout(Request $request)
-   {
-      $rented=$request->user('renteds-api');
-      if($rented){
-        $rented->currentAccessToken()->delete();
-                     return response()->json([
-         'message' => 'rented logout successfully',
-      ], 200);
-      }
-       $user=Auth::user();
-    if($user){
-      $request->user()->currentAccessToken()->delete();
-                     return response()->json([
-         'message' => 'user logout successfully',
-      ], 200);
-      }
-   }
+    {
+        $rented = $request->user('renteds-api');
+        if ($rented) {
+            $rented->currentAccessToken()->delete();
+            return response()->json([
+                'message' => 'rented logout successfully',
+            ], 200);
+        }
+        $user = Auth::user();
+        if ($user) {
+            $request->user()->currentAccessToken()->delete();
+            return response()->json([
+                'message' => 'user logout successfully',
+            ], 200);
+        }
+    }
 }
