@@ -15,6 +15,7 @@ class UserAdmin extends Model
         'password',
         'personalIdImage',
         'personalImage',
-        'role'
+        'role',
+        'boolean'
     ];
 }
