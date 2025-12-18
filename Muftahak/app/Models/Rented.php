@@ -20,4 +20,8 @@ class Rented extends Authenticatable
         'personalIdImage',
         'personalImage'
     ];
+
+    function apartments() {
+        return $this->hasMany(Apartment::class);
+    }
 }
