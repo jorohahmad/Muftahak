@@ -28,8 +28,10 @@ class AdminController extends Controller
                 // return back()->with('error', 'كلمة المرور غير صحيحة');
             return back()->with('error', 'كلمة المرور غير صحيحة');
         }
-        $p = UserAdmin::all();
-        return view('users',['collection'=>$p]);
+        $rented = Rented::all();
+        $tenant = User::all();
+        $allUsers = $tenant->merge($rented);
+        return view('users',['collection'=>$allUsers]);
     }
     
      function acceptRegister( $id)
