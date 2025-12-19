@@ -28,11 +28,11 @@ Route::get('/requestRegister/{num}', function ($num) {
         return view('requests', ['collection' => $p]);
     }
     if ($num == 2) {
-        $rented = Rented::all();
-        $tenant = User::all();
-        $allUsers = $tenant->merge($rented);
+        $renteds = Rented::all();
+        $users = User::all();
 
-        return view('users', ['collection' => $allUsers]);
+        $all = $users->concat($renteds);
+        return view('users', ['collection' => $all]);
     }
 })->name('requestRegister');
 
@@ -44,7 +44,7 @@ Route::get('/getAllUsers', function () {
 
     $rented = Rented::all();
     $tenant = User::all();
-    $allUsers = $tenant + $rented;
+    $allUsers = $tenant->concat($rented);
 
     return view('users', ['collection' => $allUsers]);
 })->name('getAllUsers');
