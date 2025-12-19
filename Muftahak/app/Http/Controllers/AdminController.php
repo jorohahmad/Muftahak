@@ -30,13 +30,13 @@ class AdminController extends Controller
         }
         $rented = Rented::all();
         $tenant = User::all();
-        $allUsers = $tenant->merge($rented);
+        $allUsers = $tenant->concat($rented);
         return view('users',['collection'=>$allUsers]);
     }
     
      function acceptRegister( $id)
     {
-        $user=UserAdmin::where('id',$id)->firstOrFail();
+        $user=UserAdmin::where('id',$id)->first();
        
         // dd($user->boolean);
         if($user->role=='rented')
@@ -51,7 +51,7 @@ class AdminController extends Controller
             'role'=>$user->role,
             'password'=>$user->password,
         ]);}
-        if($user->role=='tenant')
+        else if($user->role=='tenant')
         { User::create([
             'firstName'=>$user->firstName,
             'lastName'=>$user->lastName,
@@ -62,6 +62,9 @@ class AdminController extends Controller
             'role'=>$user->role,
             'password'=>$user->password,
         ]);}
+        else{
+            return back()->with('error', 'role not found');
+        }
         // ممكن تعديل 
         // $user->delete();
         //  $user->boolean="true";
@@ -96,7 +99,7 @@ class AdminController extends Controller
         $user->delete();
              
         // return redirect()->back()->with('success', 'User deleted successfully.');
-        $users = Rented::all()->merge(User::all());
+        $users = Rented::all()->concat(User::all());
         return view('users', ['collection' => $users]);
     }
    }
