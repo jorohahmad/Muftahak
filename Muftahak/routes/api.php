@@ -12,6 +12,4 @@ Route::get('/user', function (Request $request) {
 
 Route::post('register',[UserAdminController::class,'register']);
 
-Route::post('registerA',[UserAdminController::class,'registerA']);
-
 
