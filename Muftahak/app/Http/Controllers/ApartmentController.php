@@ -24,4 +24,15 @@ class ApartmentController extends Controller
         $apartments = $query->get();
         return response()->json($apartments, 200);
     }
+    //not needed now
+    public function getApartment($title)
+    {
+        $apartment = Apartment::where('title', $title)->first();
+        if ($apartment) {
+            return response()->json($apartment, 200);
+        } else {
+            return response()->json(['message' => 'Apartment not found'], 404);
+        }
+    }
+    
 }
