@@ -24,6 +24,7 @@ class RentedController extends Controller
          'user' => $user
       ], 201);
    }
+   
    function login(Request $request)
    {
       $request->validate([
