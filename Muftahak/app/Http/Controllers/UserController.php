@@ -43,4 +43,5 @@ class UserController extends Controller
          'user' => $user,
       ]);
    }
+//    function getAllBooking()
 }
