@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserAdminController extends Controller
 {
-   function register(Request $request)
+    function register(Request $request)
     {
         $validated = $request->validate([
             'firstName' => 'required|string',
@@ -105,6 +105,22 @@ class UserAdminController extends Controller
             $request->user()->currentAccessToken()->delete();
             return response()->json([
                 'message' => 'user logout successfully',
+            ], 200);
+        }
+    }
+
+    public function getInfoUser()
+    {
+
+        $user = Auth::user();
+        if ($user) {
+            return response()->json([
+                'user' => $user
+            ], 200);
+        } else {
+            $rented =  Auth::guard('renteds-api')->user();
+            return response()->json([
+                'user' => $rented
             ], 200);
         }
     }

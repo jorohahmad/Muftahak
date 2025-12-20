@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApartmentController;
 use App\Http\Controllers\RentedController;
 use App\Http\Controllers\UserAdminController;
 use App\Http\Controllers\UserController;
@@ -12,4 +13,6 @@ Route::get('/user', function (Request $request) {
 
 Route::post('register',[UserAdminController::class,'register']);
 
+Route::post('registerA',[UserAdminController::class,'registerA']);
 
+Route::get('getInfoUser',[UserAdminController::class,'getInfoUser'])->middleware('auth:renteds-api,sanctum');
