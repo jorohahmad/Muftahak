@@ -54,4 +54,8 @@ class User extends Authenticatable
     // public function username(){
     //     return 'phoneNumber';
     // }
+     public function apartments()
+    {
+        return $this->belongsToMany(Apartment::class,'user_apartment');
+    }
 }

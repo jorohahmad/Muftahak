@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('personalImage')->nullable();
             $table->string('personalIdImage')->nullable();
             $table->enum('role', ['rented', 'tenant']);
+            $table->enum('boolean',['true','false','zero'])->default('zero');
             $table->string('password');
             $table->timestamps();
         });

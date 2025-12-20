@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\Admin;
 use App\Models\Rented;
 use App\Models\User;
 use App\Models\UserAdmin;
@@ -12,12 +12,13 @@ class AdminController extends Controller
 {
     public function login(Request $request)
     {
+        
         $request->validate([
             'idNumber' => 'required|string|max:200',
             'password' => 'required|string'
         ]);
         // $t=request()->_token;
-        $admin = UserAdmin::where('idNumber', request()->idNumber)->first();
+        $admin = Admin::where('idNumber', request()->idNumber)->first();
         if (!$admin) {
             // return back()->with('error', 'رقم الهوية غير موجود');
              return back()->with('error', 'كلمة المرور غير صحيحة');
