@@ -17,20 +17,32 @@ class UserAdminController extends Controller
             'firstName' => 'required|string',
             'phoneNumber' => 'required|unique:user_admins,phoneNumber',
             'password' => 'required|string|min:8|confirmed',
-            'personalImage' => 'required|image|max:2048|mimes:png,jpeg,jpg,gif',
-            'personalIdImage' => 'required|image|max:2048|mimes:png,jpeg,jpg,gif',
+            'personalImage' => 'required|string',
+            'personalIdImage' => 'required|string',
             'role' => 'required|string|in:rented,tenant'
         ]);
-        if ($request->hasFile('personalImage')) {
-            $path = $request->file('personalImage')->store('M', 'public');
-            $path = str_replace('M/', '', $path);
-            $validated['personalImage'] = $path;
-        }
-        if ($request->hasFile('personalIdImage')) {
-            $path = $request->file('personalIdImage')->store('N', 'public');
-            $path = str_replace('N/', '', $path);
-            $validated['personalIdImage'] = $path;
-        }
+        // if ($request->hasFile('personalImage')) {
+        //     $path = $request->file('personalImage')->store('M', 'public');
+        //     $path = str_replace('M/', '', $path);
+        //     $validated['personalImage'] = $path;
+        // }
+        // if ($request->hasFile('personalIdImage')) {
+        //     $path = $request->file('personalIdImage')->store('N', 'public');
+        //     $path = str_replace('N/', '', $path);
+        //     $validated['personalIdImage'] = $path;
+        // }
+        $personalImage=base64_decode($request->personalImage);
+        $personalImageName=time().'.jpg';
+        $path1=storage_path('app/public/M'.$personalImageName);
+        file_put_contents($path1,$personalImage);
+        $validated['personalImage'] = 'storage/M'.$path1;
+
+        $personalIdImage=base64_decode($request->personalImage);
+        $personalIdImageName=time().'.jpg';
+        $path=storage_path('app/public/N'.$personalIdImageName);
+        file_put_contents($path,$personalIdImage);
+        $validated['personalIdImage'] = 'storage/M'.$path;
+
         $validated['password'] = Hash::make($request->password);
         $user = UserAdmin::create($validated);
         // Mail::to($user->email)->send(new WelcomMail($user));

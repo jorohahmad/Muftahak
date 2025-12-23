@@ -23,3 +23,4 @@ Route::post('storeTemporary',[WaitingController::class,'storeTemporary'])->middl
 Route::post('storeBookingFromUser',[WaitingController::class,'storeBookingFromUser'])->middleware('auth:sanctum');
 // Route::delete('cancelBookingFromUser/{id}',[WaitingController::class,'cancelBookingFromUser'])->middleware('auth:sanctum');
 Route::delete('cancelBookingFromUser',[WaitingController::class,'cancelBookingFromUser'])->middleware('auth:sanctum');
+Route::get('getAllRequestsFromWaiting',[RentedController::class,'getAllRequestsFromWaiting'])->middleware('auth:renteds-api');
