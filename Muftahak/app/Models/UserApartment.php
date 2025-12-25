@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Waiting extends Model
+class UserApartment extends Model
 {
-    protected $table = 'waitings';
+    protected $table = 'user_apartment';
 
     protected $guarded = ['id'];
 }
