@@ -51,7 +51,7 @@
                 </div>
             </div>
             {{-- <form class="container" method="POST" action="{{ route('users') }}"> --}}
-            <form method="GET" action="{{ route('requestRegister', 1) }}">
+            <form method="POST" action="{{ route('requestRegister', 1) }}">
                 @csrf
                 <button class="btn"> <i class="fas fa-exchange"></i></button>
             </form>
@@ -80,6 +80,10 @@
             });
         });
     </script> --}}
+    <script>
+    localStorage.setItem('auth_token', data.token);
+
+   </script>
 
 </body>
 

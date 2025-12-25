@@ -58,11 +58,11 @@
 
                 </div>
             </div>
-            
 
 
 
-            <form method="GET" action="{{ route('requestRegister', 2) }}">
+
+            <form method="POST" action="{{ route('requestRegister', 2) }}">
                 @csrf
                 <button class="btn"> <i class="fas fa-exchange"></i></button>
             </form>
@@ -82,20 +82,10 @@
 
     </div>
 
-    {{-- <script>
-        const buttons = document.querySelectorAll('.buttons button');
-        buttons.forEach(button => {
-            button.addEventListener('click', () => {
-                // alert(`You clicked the ${button.textContent} button.`);
-                let confirmation = confirm(`Are you sure you want to ${button.textContent}?`);
-                if (confirmation) {
-                    alert(`${button.textContent} confirmed.`);
-                } else {
-                    alert(`${button.textContent} canceled.`);
-                }
-            });
-        });
-    </script> --}}
+   <script>
+    localStorage.setItem('auth_token', data.token);
+
+   </script>
 </body>
 
 </html>

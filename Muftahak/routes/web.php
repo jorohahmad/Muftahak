@@ -22,9 +22,10 @@ Route::get('/images/{img1}/{img2}', function ($img1, $img2) {
 
 Route::post('/users', [App\Http\Controllers\AdminController::class, 'login'])->name('users');
 
-Route::get('/requestRegister/{num}', function ($num) {
+Route::post('/requestRegister/{num}', function ($num) {
     if ($num == 1) {
         $p = UserAdmin::all();
+        
         return view('requests', ['collection' => $p]);
     }
     if ($num == 2) {
