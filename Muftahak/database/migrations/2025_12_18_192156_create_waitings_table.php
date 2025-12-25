@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('last_date');
             $table->string('location');
             $table->string('id_credit_card');
+            $table->string('state')->default('temporary');
             $table->string('confirmed')->default('false');
             $table->timestamps();
         });
