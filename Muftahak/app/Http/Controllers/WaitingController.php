@@ -20,22 +20,23 @@ class WaitingController extends Controller
             'apartment_id'=>'required|exists:apartments,id'
         ]);
         $apartment=$request->apartment_id;
-        $startDate=Carbon::parse($request->first_date);
-        $endDate=Carbon::parse($request->last_date);
+        $startDate=new Carbon($request->first_date);
+        $endDate=new Carbon($request->last_date);
         // Check for overlapping bookings
-        $overlappingBooking = Waiting::where('apartment_id', $apartment)
+        $overlappingBooking = UserApartment::where('apartment_id', $apartment)
             ->where(function ($query) use ($startDate, $endDate) {
                 $query->whereBetween('first_date', [$startDate, $endDate])
                       ->orWhereBetween('last_date', [$startDate, $endDate])
                       ->orWhere(function ($query) use ($startDate, $endDate) {
                           $query->where('first_date', '<=', $startDate)
                                 ->where('last_date', '>=', $endDate);
-                      })->first();
-            });
+                      });
+            })->first();
         if ($overlappingBooking) {
             return response()->json([
-                'message' => 'The apartment is already booked for the selected dates.' ],409);
-            }
+                'message' => 'Overlapping booking found'
+            ],409);
+        }
             // No overlapping bookings found, proceed to create the temporary booking
         $validate['user_id']=Auth::user()->id;
         $validate['rented_id']=Apartment::findOrFail($apartment)->rented->id;
@@ -47,6 +48,7 @@ class WaitingController extends Controller
                 'message'=>'the booking has been temporarily made'
             ],201);
     }
+
     public function storeBookingFromUser(Request $request){
         $waiting=Waiting::where('user_id',Auth::user()->id)->where('confirmed','false')->where('apartment_id',$request->apartment_id)->first();
         if(!$waiting){

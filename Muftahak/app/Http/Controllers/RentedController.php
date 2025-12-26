@@ -65,10 +65,11 @@ class RentedController extends Controller
    }
    public function acceptBooking(Request $request)
    {
-      $w = Waiting::where('confirmed', 'true')->find($request->id);
+      $rentedId = Auth::guard('renteds-api')->user()->id;
+      $w = Waiting::where('rented_id',$rentedId)->where('confirmed', 'true')->where('id',$request->id)->first();
       $userId = $w->user_id;
       // Update the state in user_apartment table
-      $userApartment = UserApartment::where('user_id', $userId)->where('apartment_id', $w->apartment_id)->first();
+      $userApartment = UserApartment::where('user_id', $userId)->where('apartment_id', $w->apartment_id)->get()->last();
       if ($userApartment) {
          $userApartment->state = 'confirmed';   
          $userApartment->save();
@@ -80,8 +81,8 @@ class RentedController extends Controller
    }
       public function refuseBooking(Request $request)
    {
-       $w = Waiting::where('confirmed', 'true')->find($request->id);
-      $userId = $w->user_id;
+      $rentedId = Auth::guard('renteds-api')->user()->id;
+       $w = Waiting::where('rented_id',$rentedId)->where('confirmed', 'true')->find($request->id);
       $userId = $w->user_id;
       // Update the state in user_apartment table
       $userApartment = UserApartment::where('user_id', $userId)->where('apartment_id', $w->apartment_id)->first();
