@@ -17,8 +17,8 @@ class UserAdminController extends Controller
             'firstName' => 'required|string',
             'phoneNumber' => 'required|unique:user_admins,phoneNumber',
             'password' => 'required|string|min:8|confirmed',
-            'personalImage' => 'required|string',
-            'personalIdImage' => 'required|string',
+            // 'personalImage' => 'required|string',
+            // 'personalIdImage' => 'required|string',
             'role' => 'required|string|in:rented,tenant'
         ]);
         // if ($request->hasFile('personalImage')) {
