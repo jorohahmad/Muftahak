@@ -17,31 +17,22 @@ class UserAdminController extends Controller
             'firstName' => 'required|string',
             'phoneNumber' => 'required|unique:user_admins,phoneNumber',
             'password' => 'required|string|min:8|confirmed',
-            'personalImage' => 'required|string',
-            'personalIdImage' => 'required|string',
+            // 'personalImage' => 'required|string',
+            // 'personalIdImage' => 'required|string',
             'role' => 'required|string|in:rented,tenant'
         ]);
-        // if ($request->hasFile('personalImage')) {
-        //     $path = $request->file('personalImage')->store('M', 'public');
-        //     $path = str_replace('M/', '', $path);
-        //     $validated['personalImage'] = $path;
-        // }
-        // if ($request->hasFile('personalIdImage')) {
-        //     $path = $request->file('personalIdImage')->store('N', 'public');
-        //     $path = str_replace('N/', '', $path);
-        //     $validated['personalIdImage'] = $path;
-        // }
+
         $personalImage=base64_decode($request->personalImage);
-        $personalImageName=time().'.jpg';
-        $path1=storage_path('app/public/M'.$personalImageName);
+        $personalImageName='M/'.time().'.jpg';
+        $path1=storage_path('app/public/'.$personalImageName);
         file_put_contents($path1,$personalImage);
-        $validated['personalImage'] = 'storage/M'.$path1;
+        $validated['personalImage'] = str_replace('M/', '', $personalImageName);
 
         $personalIdImage=base64_decode($request->personalImage);
-        $personalIdImageName=time().'.jpg';
-        $path=storage_path('app/public/N'.$personalIdImageName);
+        $personalIdImageName='N/'.time().'.jpg';
+        $path=storage_path('app/public/'.$personalIdImageName);
         file_put_contents($path,$personalIdImage);
-        $validated['personalIdImage'] = 'storage/M'.$path;
+        $validated['personalIdImage'] =str_replace('N/', '', $personalIdImageName);
 
         $validated['password'] = Hash::make($request->password);
         $user = UserAdmin::create($validated);
