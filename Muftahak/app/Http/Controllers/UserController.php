@@ -9,6 +9,8 @@ use App\Models\Waiting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
+use Mockery\Matcher\Not;
 
 class UserController extends Controller
 {
@@ -85,8 +87,13 @@ class UserController extends Controller
     {
         $user = Auth::user();
         try{
-        $user->favoriateApartments()->attach($request->apartment_id);
-        return response()->json([
+            $user->favoriateApartments()->attach($request->apartment_id);
+            Notification::create([
+                'user_id' => $user->id,
+                'message' => 'You added an apartment to your favorites.',
+                'read' => false,
+            ]);
+            return response()->json([
             'message' => 'Apartment added to favorites successfully.'
         ], 200);}
         catch(\Exception $e){
@@ -99,6 +106,11 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $user->favoriateApartments()->detach($request->apartment_id);
+        Notification::create([
+            'user_id' => $user->id,
+            'message' => 'You removed an apartment from your favorites.',
+            'read' => false,
+        ]);
         return response()->json([
             'message' => 'Apartment removed from favorites successfully.'
         ], 200);
@@ -106,6 +118,7 @@ class UserController extends Controller
     public function getFavoritesApartments(){
         $user = Auth::user();
         $favorites = $user->favoriateApartments;
+
         return response()->json([
             'favorites' => $favorites
         ], 200);

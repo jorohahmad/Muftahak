@@ -33,3 +33,9 @@ Route::post('addToFavorites',[UserController::class,'addToFavorites'])->middlewa
 Route::delete('removeFromFavorites',[UserController::class,'removeFromFavorites'])->middleware('auth:sanctum');
 Route::get('getFavoritesApartments',[UserController::class,'getFavoritesApartments'])->middleware('auth:sanctum');
 Route::post('rateApartment',[UserController::class,'rateApartment'])->middleware('auth:sanctum');
+
+
+Route::get('notificationsForRented',[App\Http\Controllers\NotificationController::class,'indexForRented'])->middleware('auth:renteds-api');
+Route::get('notificationsForUser',[App\Http\Controllers\NotificationController::class,'indexForUser'])->middleware('auth:sanctum');
+Route::post('markAllAsReadForUser',[App\Http\Controllers\NotificationController::class,'markAllAsReadForUser'])->middleware('auth:sanctum');
+Route::post('markAllAsReadForRented',[App\Http\Controllers\NotificationController::class,'markAllAsReadForRented'])->middleware('auth:renteds-api');

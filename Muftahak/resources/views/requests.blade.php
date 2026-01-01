@@ -82,10 +82,7 @@
 
     </div>
 
-   <script>
-    localStorage.setItem('auth_token', data.token);
 
-   </script>
 </body>
 
 </html>

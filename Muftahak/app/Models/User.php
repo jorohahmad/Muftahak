@@ -103,4 +103,8 @@ class User extends Authenticatable
     public function ratingApartments(){
         return $this->belongsToMany(Apartment::class,'rates');
     }
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class, 'user_id');
+    }   
 }

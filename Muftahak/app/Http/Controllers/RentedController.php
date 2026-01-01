@@ -9,6 +9,7 @@ use App\Models\Waiting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 
 class RentedController extends Controller
 {
@@ -76,6 +77,11 @@ class RentedController extends Controller
          $userApartment->save();
          $w->delete();
       }
+      Notification::create([
+         'user_id' => $userId,
+         'message' => 'Your booking has been accepted.',
+         'read' => false,
+      ]);
       return response()->json([
          'message' => 'Booking accepted successfully'
       ], 200);
@@ -92,6 +98,11 @@ class RentedController extends Controller
          $userApartment->save();
          $w->delete();
       }
+      Notification::create([
+         'user_id' => $userId,
+         'message' => 'Your booking has been refused.',
+         'read' => false,
+      ]);
       return response()->json([
          'message' => 'Booking refused successfully'
       ], 200);
