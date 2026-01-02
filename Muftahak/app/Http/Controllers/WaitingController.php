@@ -8,7 +8,7 @@ use App\Models\Waiting;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Notification;
+use App\Models\Notification;
 use Mockery\Matcher\Not;
 
 class WaitingController extends Controller
@@ -60,6 +60,13 @@ class WaitingController extends Controller
         }
         $waiting->confirmed='true';
         $waiting->save();
+        Notification::create([
+            'rented_id' => $waiting->rented_id,
+            'user_id' => $waiting->user_id,
+            'data' => 'You have a new booking request to review.',
+            'type' => 'booking_request',
+            'read' => false,
+        ]);
         UserApartment::create([
             'user_id'=>$waiting->user_id,
             'apartment_id'=>$waiting->apartment_id,
@@ -68,11 +75,6 @@ class WaitingController extends Controller
             'location'=>$waiting->location,
             'id_credit_card'=>$waiting->id_credit_card,
             'state'=>'pending'
-        ]);
-        Notification::create([
-            'rented_id' => $waiting->rented_id,
-            'message' => 'You have a new booking request to review.',
-            'read' => false,
         ]);
         return response()->json([
             'message'=>'the booking has been confirmed successfully'

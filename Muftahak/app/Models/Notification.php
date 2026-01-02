@@ -11,12 +11,13 @@ class Notification extends Model
         'type',
         'data',
         'read',
+        'rented_id'
     ];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+    // public function user()
+    // {
+    //     return $this->belongsTo(User::class);
+    // }
     public function rented()
     {
         return $this->belongsTo(Rented::class);

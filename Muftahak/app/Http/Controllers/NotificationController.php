@@ -28,7 +28,7 @@ class NotificationController extends Controller
 public function indexForRented()
 {
     $user = Auth::guard('renteds-api')->user(); // جلب المستخدم
-    $notifications = $user->notifications->orderBy('created_at', 'desc')->get();
+    $notifications = $user->notifications()->orderBy('created_at', 'desc')->get();
     // $this->markAllAsReadForRented();
     return response()->json($notifications);
 }
@@ -52,7 +52,7 @@ public function indexForUser()
     public function markAllAsReadForRented()
     {
         $user = Auth::guard('renteds-api')->user();
-        $notifications = $user->notifications->where('read', false)->get();
+        $notifications = $user->notifications()->where('read', false)->get();
         foreach ($notifications as $notification) {
             $notification->read = true;
             $notification->save();
