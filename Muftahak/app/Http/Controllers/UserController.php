@@ -3,49 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Apartment;
+use App\Models\Notification;
 use App\Models\User;
 use App\Models\UserApartment;
 use App\Models\Waiting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
 
-    function register(Request $request)
-    {
-        $validated = $request->validate([
-            'firstName' => 'required|string',
-            'phoneNumber' => 'required|unique:users,phoneNumber',
-            'password' => 'required|string|min:8|confirmed',
-            'personalImage' => 'required|image|max:2048|mimes:png,jpeg,jpg,gif',
-            'personalIdImage' => 'required|image|max:2048|mimes:png,jpeg,jpg,gif',
-            // 'role' => 'required|string|in:rented,tenant'
-        ]);
-        if ($request->hasFile('personalImage')) {
-            $path = $request->file('personalImage')->store('personalImage', 'public');
-            $validated['personalImage'] = $path;
-        }
-        if ($request->hasFile('personalIdImage')) {
-            $path = $request->file('personalIdImage')->store('personalIdImage', 'public');
-            $validated['personalIdImage'] = $path;
-        }
-        $validated['password'] = Hash::make($request->password);
-        $user = User::create($validated);
-        // Mail::to($user->email)->send(new WelcomMail($user));
-        return response()->json([
-            'message' => 'the application was successfully recorded',
-            'user' => $user
-        ], 200);
-    }
-    function index($email)
-    {
-        $user = User::where('email', $email)->firstOrFail();
-        return response()->json([
-            'user' => $user,
-        ]);
-    }
     public function getHistoryOfUser()
     {
         $id = Auth::user()->id;
@@ -56,13 +25,10 @@ class UserController extends Controller
         foreach ($all as $item) {
             $title = Apartment::findOrFail($item->apartment_id)->title;
             $image = Apartment::findOrFail($item->apartment_id)->image1;
-            $item = $item->setAttribute('apartment_image', $image);
+            $item = $item->setAttribute('apartment_image', url(Storage::url('K/'.$image)));
             $item = $item->setAttribute('apartment_title', $title);
         }
-        return response()->json([
-            'message' => 'history retrieved successfully',
-            'history' => $all
-        ],200);
+        return response()->json($all,200);
     }
     public function updateBookingForUser(Request $request)
     {
@@ -72,11 +38,18 @@ class UserController extends Controller
         $request['location'] = $app->location;
         $request['id_credit_card'] = $app->id_credit_card;
         $request['apartment_id'] = $app->apartment_id;
-
+        $request['update'] = 'true';
         $e = new WaitingController();
         $e->storeTemporary($request);
+        Notification::create([
+            'user_id' => $app->user_id,
+            'rented_id' => Apartment::findOrFail($app->apartment_id)->rented->id,
+            'type' => '',
+            'data' => 'You have a new update booking request to review.',
+            'read' => false
+        ]);
         return response()->json([
-            'message' => 'the booking has been updated temporarily'
+            'message' => 'the update request has been sent successfully'
         ], 200);
       
     }
@@ -106,9 +79,10 @@ class UserController extends Controller
     public function getFavoritesApartments(){
         $user = Auth::user();
         $favorites = $user->favoriateApartments;
-        return response()->json([
-            'favorites' => $favorites
-        ], 200);
+          foreach ($favorites as $item) {
+            $item->image1 = url(Storage::url('K/'.$item->image1));
+        }
+        return response()->json($favorites, 200);
     }
     public function rateApartment(Request $request)
     {

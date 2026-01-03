@@ -8,6 +8,7 @@ use App\Models\UserAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserAdminController extends Controller
 {
@@ -64,7 +65,8 @@ class UserAdminController extends Controller
                     'message' => 'user login not successful because you password not valid'
                 ], 401);
             }
-
+            $user['personalImage']=url(Storage::url('M/'.$user->personalImage));
+            $user['personalIdImage']=url(Storage::url('N/'.$user->personalIdImage));
             $token = $user->createToken('auth-token')->plainTextToken;
 
             return response()->json([
@@ -80,6 +82,8 @@ class UserAdminController extends Controller
                 return response()->json([
                     'message' => 'rented login not successful because you password not valid'
                 ], 401);
+            $user['personalImage']=url(Storage::url('M/'.$user->personalImage));
+            $user['personalIdImage']=url(Storage::url('N/'.$user->personalIdImage));
             $token = $user->createToken('auth-token')->plainTextToken;
 
             return response()->json([

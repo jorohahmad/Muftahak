@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('last_date');
             $table->string('location');
             $table->string('id_credit_card');
+            $table->string('update')->default('false');
             $table->enum('state',['pending','confirmed','canceled','ended'])->default('pending');
             $table->timestamps();
         });

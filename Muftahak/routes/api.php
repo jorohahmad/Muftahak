@@ -19,17 +19,17 @@ Route::get('getInfoUser',[UserAdminController::class,'getInfoUser'])->middleware
 
 Route::get('filter',[ApartmentController::class,'filterApartments']);
 
-Route::post('storeTemporary',[WaitingController::class,'storeTemporary'])->middleware('auth:sanctum');
-Route::post('storeBookingFromUser',[WaitingController::class,'storeBookingFromUser'])->middleware('auth:sanctum');
-Route::delete('cancelBookingFromUser',[WaitingController::class,'cancelBookingFromUser'])->middleware('auth:sanctum');
-Route::get('getHistoryOfUser',[UserController::class,'getHistoryOfUser'])->middleware('auth:sanctum');
-Route::post('updateBookingForUser',[UserController::class,'updateBookingForUser'])->middleware('auth:sanctum');
+Route::post('storeTemporary',[WaitingController::class,'storeTemporary'])->middleware('auth:api');
+Route::post('storeBookingFromUser',[WaitingController::class,'storeBookingFromUser'])->middleware('auth:api');
+Route::delete('cancelBookingFromUser',[WaitingController::class,'cancelBookingFromUser'])->middleware('auth:api');
+Route::get('getHistoryOfUser',[UserController::class,'getHistoryOfUser'])->middleware('auth:api');
+Route::post('updateBookingForUser',[UserController::class,'updateBookingForUser'])->middleware('auth:api');
 
 Route::get('getAllRequestsFromWaiting',[RentedController::class,'getAllRequestsFromWaiting'])->middleware('auth:renteds-api');
 Route::post('acceptBooking',[RentedController::class,'acceptBooking'])->middleware('auth:renteds-api');
 Route::post('refuseBooking',[RentedController::class,'refuseBooking'])->middleware('auth:renteds-api');
 
-Route::post('addToFavorites',[UserController::class,'addToFavorites'])->middleware('auth:sanctum');
-Route::delete('removeFromFavorites',[UserController::class,'removeFromFavorites'])->middleware('auth:sanctum');
-Route::get('getFavoritesApartments',[UserController::class,'getFavoritesApartments'])->middleware('auth:sanctum');
-Route::post('rateApartment',[UserController::class,'rateApartment'])->middleware('auth:sanctum');
+Route::post('addToFavorites',[UserController::class,'addToFavorites'])->middleware('auth:api');
+Route::delete('removeFromFavorites',[UserController::class,'removeFromFavorites'])->middleware('auth:api');
+Route::get('getFavoritesApartments',[UserController::class,'getFavoritesApartments'])->middleware('auth:api');
+Route::post('rateApartment',[UserController::class,'rateApartment'])->middleware('auth:api');

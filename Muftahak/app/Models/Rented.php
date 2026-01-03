@@ -62,4 +62,7 @@ class Rented extends Authenticatable
     function apartments() {
         return $this->hasMany(Apartment::class);
     }
+   public function notifications(){
+        return $this->hasMany(Notification::class,'rented_id');
+    }
 }

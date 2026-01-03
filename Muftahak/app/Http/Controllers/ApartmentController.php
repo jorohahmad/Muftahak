@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Apartment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ApartmentController extends Controller
 {
@@ -22,6 +23,13 @@ class ApartmentController extends Controller
             $q->where('price', '<=', $request->max_price);
         });
         $apartments = $query->get();
+         foreach ($apartments as $name) {
+            $name->image1=url(Storage::url('K/'.$name->image1));
+            $name->image2=url(Storage::url('K/'.$name->image2));
+            $name->image3=url(Storage::url('K/'.$name->image3));
+            $name->image4=url(Storage::url('K/'.$name->image4));
+            $name->image5=url(Storage::url('K/'.$name->image5));
+         }
         return response()->json($apartments, 200);
     }
     //not needed now

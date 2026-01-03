@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Apartment;
+use App\Models\Notification;
 use App\Models\UserApartment;
 use App\Models\Waiting;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+
+use function PHPUnit\Framework\isArray;
 
 class WaitingController extends Controller
 {
@@ -34,12 +38,13 @@ class WaitingController extends Controller
             })->first();
         if ($overlappingBooking) {
             return response()->json([
-                'message' => 'Overlapping booking found'
-            ],409);
+                'message'=>'not available for the selected dates',
+                'overlapping_booking'=>$overlappingBooking],409);
         }
             // No overlapping bookings found, proceed to create the temporary booking
         $validate['user_id']=Auth::user()->id;
         $validate['rented_id']=Apartment::findOrFail($apartment)->rented->id;
+        $validate['update']=$request->has('update') ? 'true' : 'false';
         $w=Waiting::create($validate);
         Apartment::findOrFail($apartment)->update([
             'status'=>'notAvailable'
@@ -50,7 +55,7 @@ class WaitingController extends Controller
     }
 
     public function storeBookingFromUser(Request $request){
-        $waiting=Waiting::where('user_id',Auth::user()->id)->where('confirmed','false')->where('apartment_id',$request->apartment_id)->first();
+        $waiting=Waiting::where('user_id',Auth::user()->id)->where('confirmed','false')->where('id',$request->id)->first();
         if(!$waiting){
             return response()->json([
                 'message'=>'no temporary booking found'
@@ -67,25 +72,32 @@ class WaitingController extends Controller
             'id_credit_card'=>$waiting->id_credit_card,
             'state'=>'pending'
         ]);
+        Notification::create([
+            'user_id'=>$waiting->user_id,
+            'rented_id'=>$waiting->rented_id,
+            'type'=>'',
+            'data'=>'You have a new booking request to review.',
+            'read'=>false
+        ]);
         return response()->json([
             'message'=>'the booking has been confirmed successfully'
         ],200);
     }   
 
     public function cancelBookingFromUser(Request $request){
-        $waiting=Waiting::where('user_id',Auth::user()->id)->where('confirmed','false')->where('apartment_id',$request->apartment_id)->first();
+        $waiting=Waiting::where('user_id',Auth::user()->id)->where('confirmed','false')->where('id',$request->id)->first();
         if(!$waiting){
             return response()->json([
                 'message'=>'no temporary booking found'
             ],404);
         }
-        Apartment::findOrFail($request->apartment_id)->update([
+        Apartment::findOrFail($waiting->apartment_id)->update([
             'status'=>'Available'
         ]);
         $waiting->delete();
         return response()->json([
             'message'=>'the temporary booking has been cancelled successfully'
-        ],200);
+        ],204);
     }
      
 
