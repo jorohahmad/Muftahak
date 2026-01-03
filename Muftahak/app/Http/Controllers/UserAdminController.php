@@ -16,6 +16,8 @@ class UserAdminController extends Controller
     {
         $validated = $request->validate([
             'firstName' => 'required|string',
+            'lastName' => 'required|string',
+            'birthday'=>'required|string',
             'phoneNumber' => 'required|unique:user_admins,phoneNumber',
             'password' => 'required|string|min:8|confirmed',
             'personalImage' => 'required|string',
