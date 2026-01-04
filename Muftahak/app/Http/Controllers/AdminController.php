@@ -65,12 +65,8 @@ class AdminController extends Controller
         else{
             return back()->with('error', 'role not found');
         }
-        // ممكن تعديل 
-        // $user->delete();
-        //  $user->boolean="true";
-        //  dd($user->boolean);
         $user->update(['boolean'=>'true']);
-        return redirect()->route('requestRegister',1);
+        return view('requests', ['collection' => UserAdmin::all()]); 
     }
     
 

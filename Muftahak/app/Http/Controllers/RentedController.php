@@ -31,7 +31,6 @@ class RentedController extends Controller
    public function acceptBooking(Request $request)
    {
       $rentedId = Auth::guard('renteds-api')->user()->id;
-      // $w = Waiting::where('rented_id',$rentedId)->where('confirmed', 'true')->where('id',$request->id)->first();
       $w=Waiting::findOrFail($request->id);
       $userId = $w->user_id;
       // Update the state in user_apartment table
@@ -56,13 +55,12 @@ class RentedController extends Controller
          'read' => false,
       ]);
       return response()->json([
-         'message' => 'Booking accepted successfully'.$w->update
+         'message' => 'Booking accepted successfully'
       ], 200);
    }
       public function refuseBooking(Request $request)
    {
       $rentedId = Auth::guard('renteds-api')->user()->id;
-      //  $w = Waiting::where('rented_id',$rentedId)->where('confirmed', 'true')->find($request->id);
       $w=Waiting::findOrFail($request->id);
       $userId = $w->user_id;
       // Update the state in user_apartment table

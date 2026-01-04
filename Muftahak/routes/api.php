@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApartmentController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\RentedController;
 use App\Http\Controllers\UserAdminController;
 use App\Http\Controllers\UserController;
@@ -33,3 +34,7 @@ Route::post('addToFavorites',[UserController::class,'addToFavorites'])->middlewa
 Route::delete('removeFromFavorites',[UserController::class,'removeFromFavorites'])->middleware('auth:api');
 Route::get('getFavoritesApartments',[UserController::class,'getFavoritesApartments'])->middleware('auth:api');
 Route::post('rateApartment',[UserController::class,'rateApartment'])->middleware('auth:api');
+Route::get('notificationsForRented',[NotificationController::class,'indexForRented'])->middleware('auth:renteds-api');
+Route::get('notificationsForUser',[NotificationController::class,'indexForUser'])->middleware('auth:api');
+Route::post('markAllAsReadForRented',[NotificationController::class,'markAllAsReadForRented'])->middleware('auth:renteds-api');
+Route::post('markAllAsReadForUser',[NotificationController::class,'markAllAsReadForUser'])->middleware('auth:api');

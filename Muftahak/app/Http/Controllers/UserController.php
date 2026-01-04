@@ -32,8 +32,6 @@ class UserController extends Controller
     }
     public function updateBookingForUser(Request $request)
     {
-        // $userId=Auth::user()->id;
-        //    $app= UserApartment::where('user_id',$userId)->where('apartment_id',$request->apartment_id)->first();
         $app = UserApartment::find($request->id);
         $request['location'] = $app->location;
         $request['id_credit_card'] = $app->id_credit_card;

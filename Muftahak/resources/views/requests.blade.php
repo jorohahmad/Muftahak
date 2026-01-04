@@ -44,7 +44,7 @@
                                         onsubmit="return confirm('Do You Sure To Delete')">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="delete"> DISAPPROVAL
+                                        <button class="delete"> DISAPPROVAL</button>
                                     </form>
                                     <form action="{{ route('registerA', $item->id) }}" method="POST"
                                         onsubmit="return confirm('Do You Sure To Approve')">
@@ -62,7 +62,7 @@
 
 
 
-            <form method="GET" action="{{ route('requestRegister', 2) }}">
+            <form method="POST" action="{{ route('requestRegister', 2) }}">
                 @csrf
                 <button class="btn"> <i class="fas fa-exchange"></i></button>
             </form>
