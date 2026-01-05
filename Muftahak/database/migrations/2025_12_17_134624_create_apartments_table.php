@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('price');
             $table->string('description');
             $table->string('details');
-            $table->double('rate')->default(0);
+            $table->double('rate')->default(0.0);
             $table->enum('status', ['Available', 'notAvailable'])->default('Available');
             $table->string('image1')->nullable();
             $table->string('image2')->nullable();

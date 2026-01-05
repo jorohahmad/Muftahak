@@ -43,7 +43,7 @@ class ApartmentFactory extends Factory
             'price' => fake()->numberBetween(1000, 10000),
             'description' => fake()->paragraph(),
             'details' => fake()->paragraph(),
-            'status' => fake()->randomElement(['Available', 'notAvailable']),
+            'status' => 'Available',
             'image1' => fake()->randomElement($imagepath),
             'image2' => fake()->randomElement($imagepath),
             'image3' =>fake()->randomElement($imagepath),

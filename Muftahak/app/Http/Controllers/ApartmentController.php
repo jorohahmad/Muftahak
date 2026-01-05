@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Apartment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 
 class ApartmentController extends Controller
@@ -30,6 +31,7 @@ class ApartmentController extends Controller
             $name->image4=url(Storage::url('K/'.$name->image4));
             $name->image5=url(Storage::url('K/'.$name->image5));
          }
+         Artisan::call('waitings:delete-unconfirmed-records');
         return response()->json($apartments, 200);
     }
     //not needed now

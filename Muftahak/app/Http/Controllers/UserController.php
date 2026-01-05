@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\UserApartment;
 use App\Models\Waiting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -28,6 +29,7 @@ class UserController extends Controller
             $item = $item->setAttribute('apartment_image', url(Storage::url('K/'.$image)));
             $item = $item->setAttribute('apartment_title', $title);
         }
+        Artisan::call('waitings:delete-unconfirmed-records');
         return response()->json($all,200);
     }
     public function updateBookingForUser(Request $request)
@@ -46,6 +48,7 @@ class UserController extends Controller
             'data' => 'You have a new update booking request to review.',
             'read' => false
         ]);
+        Artisan::call('waitings:delete-unconfirmed-records');
         return response()->json([
             'message' => 'the update request has been sent successfully'
         ], 200);
@@ -57,6 +60,7 @@ class UserController extends Controller
         $user = Auth::user();
         try{
         $user->favoriateApartments()->attach($request->apartment_id);
+        Artisan::call('waitings:delete-unconfirmed-records');
         return response()->json([
             'message' => 'Apartment added to favorites successfully.'
         ], 200);}
@@ -70,6 +74,7 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $user->favoriateApartments()->detach($request->apartment_id);
+        Artisan::call('waitings:delete-unconfirmed-records');
         return response()->json([
             'message' => 'Apartment removed from favorites successfully.'
         ], 200);
@@ -94,6 +99,7 @@ class UserController extends Controller
         $averageRating = $sumRatings / $totalRatings;
         $apartment->rate = $averageRating;   
         $apartment->save();
+        Artisan::call('waitings:delete-unconfirmed-records');
         return response()->json([
             'message' => 'Apartment rated successfully.'
         ], 200);}
@@ -107,6 +113,7 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $user->ratingApartments()->detach($request->id);
+        Artisan::call('waitings:delete-unconfirmed-records');
         return response()->json([
             'message' => 'Apartment unrated successfully.'
         ], 200);

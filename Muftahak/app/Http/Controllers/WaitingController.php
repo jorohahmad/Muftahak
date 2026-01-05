@@ -8,6 +8,7 @@ use App\Models\UserApartment;
 use App\Models\Waiting;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
@@ -26,6 +27,7 @@ class WaitingController extends Controller
         $apartment=$request->apartment_id;
         $startDate=new Carbon($request->first_date);
         $endDate=new Carbon($request->last_date);
+        $now = Carbon::now();
         // Check for overlapping bookings
         $overlappingBooking = UserApartment::where('apartment_id', $apartment)
             ->where(function ($query) use ($startDate, $endDate) {
@@ -46,9 +48,11 @@ class WaitingController extends Controller
         $validate['rented_id']=Apartment::findOrFail($apartment)->rented->id;
         $validate['update']=$request->has('update') ? 'true' : 'false';
         $w=Waiting::create($validate);
+        if ($now->between($startDate, $endDate)){
         Apartment::findOrFail($apartment)->update([
             'status'=>'notAvailable'
-        ]);
+        ]);}
+        Artisan::call('waitings:delete-unconfirmed-records');
         return response()->json([
                 'message'=>'the booking has been temporarily made'
             ],201);
@@ -79,6 +83,7 @@ class WaitingController extends Controller
             'data'=>'You have a new booking request to review.',
             'read'=>false
         ]);
+        Artisan::call('waitings:delete-unconfirmed-records');
         return response()->json([
             'message'=>'the booking has been confirmed successfully'
         ],200);
@@ -95,6 +100,7 @@ class WaitingController extends Controller
             'status'=>'Available'
         ]);
         $waiting->delete();
+        Artisan::call('waitings:delete-unconfirmed-records');
         return response()->json([
             'message'=>'the temporary booking has been cancelled successfully'
         ],204);

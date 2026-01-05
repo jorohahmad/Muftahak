@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\UserApartment;
 use App\Models\Waiting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -26,6 +27,7 @@ class RentedController extends Controller
          $name = $name->setAttribute('user_name', $first . ' ' . $last);
          $name = $name->setAttribute('personal_image', $p);
       }
+      Artisan::call('waitings:delete-unconfirmed-records');
       return response()->json($w, 200);
    }
    public function acceptBooking(Request $request)
@@ -54,6 +56,7 @@ class RentedController extends Controller
          'data' => 'Your booking  has been accepted.',
          'read' => false,
       ]);
+      Artisan::call('waitings:delete-unconfirmed-records');
       return response()->json([
          'message' => 'Booking accepted successfully'
       ], 200);
@@ -77,6 +80,7 @@ class RentedController extends Controller
          'data' => 'Your booking  has been accepted.',
          'read' => false,
       ]);
+      Artisan::call('waitings:delete-unconfirmed-records');
       return response()->json([
          'message' => 'Booking refused successfully'
       ], 200);

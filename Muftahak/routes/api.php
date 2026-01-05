@@ -3,6 +3,7 @@
 use App\Http\Controllers\ApartmentController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\RentedController;
+use App\Http\Controllers\UpdateController;
 use App\Http\Controllers\UserAdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WaitingController;
@@ -38,3 +39,4 @@ Route::get('notificationsForRented',[NotificationController::class,'indexForRent
 Route::get('notificationsForUser',[NotificationController::class,'indexForUser'])->middleware('auth:api');
 Route::post('markAllAsReadForRented',[NotificationController::class,'markAllAsReadForRented'])->middleware('auth:renteds-api');
 Route::post('markAllAsReadForUser',[NotificationController::class,'markAllAsReadForUser'])->middleware('auth:api');
+Route::put('updateState',[UpdateController::class,'updateState']);

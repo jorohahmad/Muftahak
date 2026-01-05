@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\UserApartment;
 use Illuminate\Console\Command;
 
 class DeleteUnconfirmedRecords extends Command
@@ -25,7 +26,7 @@ class DeleteUnconfirmedRecords extends Command
      */
     public function handle()
     {
-        $timeLimit = now()->subMinutes(11);
+        $timeLimit = now()->subMinutes(2);
         $deletedCount = \App\Models\Waiting::where('created_at', '<', $timeLimit)
             ->where('confirmed', 'false')
             ->delete();
